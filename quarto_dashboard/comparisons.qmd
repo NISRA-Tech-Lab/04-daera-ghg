@@ -1,0 +1,167 @@
+---
+title: COMPARISONS
+---
+
+```{r setup}
+#| include: FALSE
+
+source("data_prep_comparisons.R")
+
+```
+
+## Row {.tabset}
+
+```{r}
+#| title: Total NI CO2e Emissions by Sector 2022
+
+yaxistitle <- list(x = 0, y = 1, text = "Kilotonnes\nCO\u2082e", 
+                showarrow = F, xref= "paper", yref="paper", 
+                xanchor = "center", yanchor="bottom",
+                font = list(size = 14))
+
+plot_ly(data = homebardf,
+        x = ~TESS1 ,
+        y = ~Emission,
+        type = "bar",
+        marker = list(color = ~colour)) %>%
+  layout(title = paste0(currentYear, " Northern Ireland CO\u2082e emissions by sector"),
+         titlefont = list(size = 25),
+         xaxis = list(title = "Sector",
+                      tickangle = 0),
+         yaxis = list(title = "",
+                      tickformat = ",d",
+                      showline = TRUE),
+         annotations = list(yaxistitle),
+         margin = list(t = 50))  %>%
+    config(displaylogo = FALSE)
+```
+
+```{r}
+#| title: NI CO2e Emissions by Year and Sector
+
+# Declare list of sectors and colours
+sectors <- rev(unique(names(stackedBarData[names(stackedBarData) != "eYear"])))
+colours <- rev(sectorColours$colour)
+
+# Create first bar
+stackedBar <- plot_ly(stackedBarData,
+                      x = ~eYear,
+                      y = stackedBarData[[sectors[1]]],
+                      type = "bar", marker = list(color = colours[1]),
+                      name = sectors[1])  %>%
+    config(displaylogo = FALSE)
+
+# Loop to create others with add_trace()
+for (i in 2:length(sectors)) {
+  stackedBar <- stackedBar %>%
+  add_trace(
+    y = stackedBarData[[sectors[i]]],
+    marker = list(color = colours[i]),
+    name = sectors[i])
+}
+
+yaxistitle <- list(x = 0, y = 1, text = "Total\nKilotonnes\nCO\u2082e", 
+                   showarrow = F, xref = "paper", yref = "paper", 
+                   xanchor = "center", yanchor = "bottom",
+                   font = list(size = 14))
+
+stackedBar %>%
+  layout(barmode = "stack",
+         title = "Total Northern Ireland CO\u2082e emissions by year and sector",
+         titlefont = list(size = 25),
+         xaxis = list(title = "Emission year",
+                      tickangle = 0),
+         yaxis = list(title = "",
+                      tickformat = ",d",
+                      showline = TRUE),
+         annotations = list(yaxistitle),
+         hovermode = "x unified",
+         margin = list(t = 75))
+```
+
+```{r}
+#| title: UK Historic Comparison (Bar Chart Race)
+
+sectorSumAll %>%
+  plot_ly(x = ~England,
+          y = "England",
+          hoverinfo = "x",
+          text = "England",
+          textposition = "outside",
+          type = "bar",
+          frame = ~Year,
+          marker = list(color = "#197e84"),
+          showlegend = FALSE) %>%
+  add_trace(x = ~Scotland,
+            y = "Scotland",
+            text = "Scotland",
+            marker = list(color = "#831d5c")) %>%
+  add_trace(x = ~Wales,
+            y = "Wales",
+            text = "Wales",
+            marker = list(color = "#7e749d")) %>%
+  add_trace(x = ~`Northern Ireland`,
+            y = "Northern Ireland",
+            text = "Northern Ireland",
+            marker = list(color = "#819dcb")) %>%
+  layout(
+    xaxis = list(
+      title = "Greenhouse gas emissions MtCO\u2082e (log base 10 scale)",
+      type = "log"
+    ),
+    yaxis = list(
+      title = "",
+      categoryorder = "sum ascending",
+      showticklabels = FALSE
+    )
+  )  %>%
+    config(displaylogo = FALSE) %>%
+  animation_slider(
+currentvalue = list(prefix = "Year: ", font = list(color="black", size = 20))
+)
+```
+
+```{r}
+#| title: NI Historic Sector Comparison (Bar Chart Race)
+
+sectors <- unique(names(sectorSumNI[names(sectorSumNI) != "Year"]))
+colours <- sectorColours$colour
+
+sectorBarChartRace <- sectorSumNI %>%
+  plot_ly(x = ~.[[sectors[1]]],
+          y = sectors[1],
+          hoverinfo = "x",
+          text = sectors[1],
+          textposition = "outside",
+          type = "bar",
+          frame = ~Year,
+          marker = list(color = colours[1]),
+          showlegend = FALSE)  %>%
+    config(displaylogo = FALSE)
+
+for (i in 2:length(sectors)) {
+  sectorBarChartRace <- sectorBarChartRace %>%
+    add_trace(x = sectorSumNI[[sectors[i]]],
+          y = sectors[i],
+          text = sectors[i],
+          marker = list(color = colours[i]))
+}
+
+
+sectorBarChartRace <- sectorBarChartRace %>%
+  layout(
+    xaxis = list(
+      title = "Greenhouse gas emissions MtCO\u2082e",
+      tickformat = ",d"
+    ),
+    yaxis = list(
+      title = "",
+      categoryorder = "sum ascending",
+      showticklabels = FALSE
+    )) %>%
+  animation_slider(
+    currentvalue = list(prefix = "Year: ", font = list(color="black", size = 20))
+  )
+
+sectorBarChartRace
+```

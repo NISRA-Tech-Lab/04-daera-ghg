@@ -1,0 +1,34 @@
+---
+title: Domestic transport
+---
+
+```{r setup}
+#| include: FALSE
+
+source("data_prep_sector_emissions.R")
+
+sector_data <- sectorEmission(sector = "Domestic transport")
+
+```
+
+# {.sidebar}
+
+```{r}
+sector_data$filters
+```
+
+#
+
+## Row {.tabset}
+
+### Graph
+
+```{r}
+sector_data$fig
+```
+
+### Table
+
+```{r}
+sector_data$sectTable
+```
