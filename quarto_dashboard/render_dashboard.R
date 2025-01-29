@@ -8,7 +8,7 @@ folder_name <- "quarto_dashboard"
 # Run to render website
 quarto_render(folder_name)
 
-
+# Run after render to fix date slider
 html_docs <- list.files(paste0(here(), "/", folder_name, "/_site"), pattern = "*.html")
 
 for (doc in html_docs) {

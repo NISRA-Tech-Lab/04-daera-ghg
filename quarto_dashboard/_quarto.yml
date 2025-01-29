@@ -5,7 +5,7 @@ website:
   title: "Northern Ireland Greenhouse Gas Inventory 1990-2022"
   search: false
   navbar:
-    logo: ../A4_DAERA_Logo_White_Out.png
+    logo: img/A4_DAERA_Logo_White_Out.png
     left:
       - href: index.qmd
         text: HOME
@@ -38,5 +38,5 @@ website:
 
 format:
   dashboard:
-    css: ../style.css
+    css: style.css
     
