@@ -38,6 +38,5 @@ website:
 
 format:
   dashboard:
-    embed-resources: true
     css: ../style.css
     
