@@ -1,0 +1,35 @@
+---
+title: LULUCF
+---
+
+```{r setup}
+#| include: FALSE
+
+library(here)
+source(paste0(here(), "/data_prep/sector_emissions.R"))
+
+sector_data <- sectorEmission(sector = "LULUCF")
+
+```
+
+# {.sidebar}
+
+```{r}
+sector_data$filters
+```
+
+#
+
+## Row {.tabset}
+
+### Graph
+
+```{r}
+sector_data$fig
+```
+
+### Table
+
+```{r}
+sector_data$sectTable
+```

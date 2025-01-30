@@ -1,0 +1,324 @@
+---
+title: HOME
+---
+
+```{r setup}
+#| include: FALSE
+
+library(here)
+source(paste0(here(), "/data_prep/home.R"))
+
+```
+
+## Row
+
+### Column {width=33%}
+
+```{r}
+#| title: HISTORIC EMISSIONS
+
+PollutantSum_split %>%
+  plot_ly(x = ~EmissionYear, y = ~post1997, name = "",
+          type = "scatter", mode = "lines",
+          line = list(width = 5, color = "#009b3e"),
+          hovertemplate = paste('Total greenhouse gas emissions',
+                                '<br><b>%{x}</b>: %{y:.2f} MtCO\u2082e')) %>%
+  add_trace(y = CO2only_split$post1997,
+            line = list(width = 5, color = "#1c5d97"),
+            hovertemplate = paste('CO\u2082 gas emissions',
+                                '<br><b>%{x}</b>: %{y:.2f} MtCO\u2082e')) %>%
+  add_trace(y = ~pre1997, mode="markers",
+            marker = list(size = 15, color = "#009b3e"),
+            line = list(width = 0, color = "white"),
+            hovertemplate = paste('Total greenhouse gas emissions',
+                               '<br><b>%{x}</b>: %{y:.2f} MtCO\u2082e')) %>%
+  add_trace(y = CO2only_split$pre1997, mode = "markers",
+            marker = list(size = 15, color = "#1c5d97"),
+            line = list(width = 0, color = "white"),
+            hovertemplate = paste('CO\u2082 gas emissions',
+                                '<br><b>%{x}</b>: %{y:.2f} MtCO\u2082e')) %>%
+  layout(
+    xaxis = list(
+      title = "",
+      showgrid = FALSE,
+      linecolor = "Black",
+      linewidth = 4,
+      ticks = "inside",
+      tickwidth = 4,
+      tickcolor = "Black",
+      tickangle = 0,
+      tickfont = list(color='Black', size=14),
+      range = c(1989, currentYear)),
+    yaxis = list(
+      title = "",
+      showgrid = FALSE,
+      showline = TRUE,
+      linecolor = "Black",
+      linewidth = 4,
+      ticks = "inside",
+      tickwidth = 4,
+      tickcolor = "Black",
+      tickfont = list(color='Black', size=14),
+      range = c(0, max(PollutantSum$sumCO2)+3)
+      ),
+    hovermode = "x unified",
+    annotations = list(
+      list(x = 0, y = 1, text = "Greenhouse gas\nemissions\nMtCO\u2082e*", 
+           showarrow = F, xref= "paper", yref="paper", 
+           xanchor = "center", yanchor="bottom",
+           font = list(size = 15)),
+      list(x = 1, y = 0.05, text = "*MtCO\u2082e = million tonnes of CO\u2082 equivalent",
+       showarrow = F, xref= "paper", yref="paper", 
+       xanchor = "right", yanchor="bottom",
+       font = list(size = 15))),
+    margin = list(t = 75)) %>%
+  hide_legend()  %>%
+    config(displaylogo = FALSE)
+```
+
+### Column {width=33%}
+
+```{r}
+#| title: CHANGE IN EMISSIONS
+
+# Start with an empty ggplot
+ggplot() +
+  # Use an empty theme to remove axes
+  theme_void() +
+  # First all text captions are inserted and positioned using hjust and vjust
+  # Left hand side
+  # Text label "ThisYr Emissions"
+  annotate("text", label = paste0(currentYear, " emissions"),
+           x= 0, y = 0, hjust = 1.55, vjust = -6.1, colour = "white", size = 5) +
+  # Text label "MTCO₂e"
+  annotate("text", label = expression("MtCO"[2]*"e"),
+           x= 0, y = 0, hjust = 2.6, vjust = -3.4, colour = "white", size = 5) +
+  # Text label value of emissions in current year
+  annotate("text", label = co2Compare$`Emission`[co2Compare$EmissionYear == currentYear],
+           x= 0, y = 0, hjust = 3.25, vjust = -1.9, colour = "white", size = 7, fontface = "bold") +
+  # Text label "LastYr-ThisYr % Change"
+  annotate("text", label = paste0(currentYear-1, "-", currentYear, " % Change"),
+           x= 0, y = 0, hjust = 1.1, vjust = 0, colour = green, size = 6) +
+  # Text label % change value from last year
+  annotate("text", label = paste0(pctCO2Equiv,"%"),
+           x= 0, y = 0, hjust = 4.2, vjust = 3, colour = "white", size = 7) +
+  # Text label "1990-ThisYr % Change"
+  annotate("text", label = paste0("1990-", currentYear, " % Change"),
+           x= 0, y = 0, hjust = 1.1, vjust = 7.0, colour = green, size = 6) +
+  # Text label % change value from 1990
+  annotate("text", label = paste0(pctCO2Equiv_1990,"%"),
+           x= 0, y = 0, hjust = 3.15, vjust = 8.9, colour = "white", size = 7) +
+  # Right hand side
+  # Text label "ThisYr Emissions"
+  annotate("text", label = paste0(currentYear, " emissions"),
+           x= 0, y = 0, hjust = -0.55, vjust = -6.1, colour = "white", size = 5) +
+  # Text label "MTCO₂e"
+  annotate("text", label = expression("MtCO"[2]*"e"),
+           x= 0, y = 0, hjust = -1.6, vjust = -3.4, colour = "white", size = 5) +
+  # Text label value of emissions in current year
+  annotate("text", label = co2Compare$CO2[co2Compare$EmissionYear == currentYear],
+           x= 0, y = 0, hjust = -2.3, vjust = -1.9, colour = "white", size = 7, fontface = "bold") +
+  # Text label "LastYr-ThisYr % Change"
+  annotate("text", label = paste0(currentYear-1, "-", currentYear, " % Change"),
+           x= 0, y = 0, hjust = -0.2, vjust = 0, colour = blue, size = 6) +
+  # Text label % change value from last year
+  annotate("text", label = paste0(pctCO2,"%"),
+           x= 0, y = 0, hjust = -3.2, vjust = 3, colour = "white", size = 7) +
+  # Text label "1990-ThisYr % Change"
+  annotate("text", label = paste0("1990-", currentYear, " % Change"),
+           x= 0, y = 0, hjust = -0.2, vjust = 7.0, colour = blue, size = 6) +
+  # Text label % change value from 1990
+  annotate("text", label = paste0(pctCO2_1990,"%"),
+           x= 0, y = 0, hjust = -2.2, vjust = 8.9, colour = "white", size = 7) +
+  # Total greenhouse gas emissions label
+  annotate("text", label = "Total greenhouse gas",
+           x= 0, y = 0, hjust = 1.2, vjust = -10, colour = green, angle = 0, size = 6) +
+  annotate("text", label = "emissions",
+           x= 0, y = 0, hjust = 2, vjust = -8.8, colour = green, angle = 0, size = 6) +
+  # Carbon dioxide gas emissions label
+  annotate("text", label = "Carbon dioxide",
+           x= 0, y = 0, hjust = -0.4, vjust = -10, colour = blue, angle = 0, size = 6) +
+  annotate("text", label = "emissions",
+           x= 0, y = 0, hjust = -0.8, vjust = -8.8, colour = blue, angle = 0, size = 6) +
+  # dashboard/images inserted and positioned
+  inset_element(p = readPNG(greenCloud, native = TRUE),
+                left = 0.05, bottom = 0.55, right = 0.45, top = 0.8, on_top = FALSE) +
+  inset_element(p = readPNG(greenArrow1, native = TRUE),
+                left = 0.05, bottom = 0.28, right = 0.45, top = 0.48, on_top = FALSE) +
+  inset_element(p = readPNG(greenArrow2, native = TRUE),
+                left = 0.05, bottom = 0.02, right = 0.45, top = 0.22, on_top = FALSE) +
+  inset_element(p = readPNG(blueCloud, native = TRUE),
+                left = 0.55, bottom = 0.55, right = 0.95, top = 0.8, on_top = FALSE) +
+  inset_element(p = readPNG(blueArrow1, native = TRUE),
+                left = 0.55, bottom = 0.28, right = 0.95, top = 0.48, on_top = FALSE) +
+  inset_element(p = readPNG(blueArrow2, native = TRUE),
+                left = 0.55, bottom = 0.02, right = 0.95, top = 0.22, on_top = FALSE)
+```
+
+### Column {width=33%}
+
+```{r}
+#| title: COMPOSITION OF EMISSIONS (NI & UK) 2022
+
+# Start with an empty ggplot object
+ggplot() +
+  # Use blank theme theme_void()
+  theme_void() +
+  ## Text labels for middle of chart, formatted and positioned:
+  # Carbon Dioxide
+  annotate("text", label = "- Carbon Dioxide -",
+           x = 0, y = 0, vjust = -11, colour = lightBlue, size = 5) +
+  # Methane
+  annotate("text", label = "—— Methane ——",
+           x = 0, y = 0, vjust = -2, colour = lightBlue, size = 5) +
+  # Nitrous Oxide
+  annotate("text", label = "—— Nitrous Oxide ——",
+           x = 0, y = 0, vjust = 4.5, colour = lightBlue, size = 5) +
+  # Fluroinated and
+  annotate("text", label = "—— Fluorinated and ——",
+           x = 0, y = 0, vjust = 9, colour = lightBlue, size = 5) +
+  # other gases
+  annotate("text", label = "other gases",
+           x = 0, y = 0, vjust = 10, colour = lightBlue, size = 5) +
+  ## Text labels at bottom of infographic
+  # NI
+  annotate("text", label = "NI", 
+           x = 0, y = 0, hjust = 9.3, vjust = 12.3, colour = blue, size = 5) +
+  # MtCO2e value for NI
+  annotate("text", label = bquote("(" * .(co2EquivNI) ~ "MtCO"[2] * "e)"), 
+           x = 0, y = 0, hjust = 1.9, vjust = 11, colour = blue, size = 5) +
+  # UK
+  annotate("text", label = "UK",
+           x = 0, y = 0, hjust = -6, vjust = 12.3, colour = blue, size = 5) +
+  # MtCO2e value for UK
+  annotate("text", label = bquote("(" * .(co2EquivAll) ~ "MtCO"[2] * "e)"), 
+           x = 0, y = 0, hjust = -0.8, vjust = 11, colour = blue, size = 5) +
+  ## NI values on clouds
+  # CO2 value
+  annotate("text", label = comp_NI$pct[comp_NI$Pollutant == "CO2"], 
+           x = 0, y = 0, hjust = 2.2, vjust = -4.5, colour = "white", size = 12, fontface = "bold") +
+  # CH4 value
+  annotate("text", label = comp_NI$pct[comp_NI$Pollutant == "CH4"],
+           x = 0, y = 0, hjust = 2.2, vjust = -0.6, colour = "white", size = 12, fontface = "bold") +
+  # N2O value
+  annotate("text", label = comp_NI$pct[comp_NI$Pollutant == "N2O"],
+           x = 0, y = 0, hjust = 3, vjust = 2.2, colour = "white", size = 12, fontface = "bold") +
+  # Others value
+  annotate("text", label = comp_NI$pct[comp_NI$Pollutant == "Other"], 
+           x = 0, y = 0, hjust = 3.3, vjust = 4.5, colour = "white", size = 11, fontface = "bold") +
+  ## UK values on clouds
+  # CO2 value
+  annotate("text", label = comp_All$pct[comp_All$Pollutant == "CO2"],
+            x = 0, y = 0, hjust = -1.4, vjust = -4.5, colour = "white", size = 12, fontface = "bold") +
+  # CH4 value
+  annotate("text", label = comp_All$pct[comp_All$Pollutant == "CH4"], 
+           x = 0, y = 0, hjust = -1.4, vjust = -0.6, colour = "white", size = 12, fontface = "bold") +
+  # N2O value
+  annotate("text", label = comp_All$pct[comp_All$Pollutant == "N2O"], 
+           x = 0, y = 0, hjust = -2, vjust = 2.2, colour = "white", size = 12, fontface = "bold") +
+  # Others value
+  annotate("text", label = comp_All$pct[comp_All$Pollutant == "Other"], 
+           x = 0, y = 0, hjust = -2.4, vjust = 4.5, colour = "white", size = 11, fontface = "bold") +
+  # dashboard/images inserted and positioned
+  inset_element(p = readPNG(blueCloud, native = TRUE),
+                left = 0.05, bottom = 0.72, right = 0.35, top = 1, on_top = FALSE) +
+  inset_element(p = readPNG(greenCloud, native = TRUE),
+                left = 0.07, bottom = 0.45, right = 0.33, top = 0.72, on_top = FALSE) +
+  inset_element(p = readPNG(darkBlueCloud, native = TRUE),
+                left = 0.09, bottom = 0.29, right = 0.31, top = 0.45, on_top = FALSE) +
+  inset_element(p = readPNG(lightBlueCloud, native = TRUE),
+                left = 0.11, bottom = 0.15, right = 0.29, top = 0.29, on_top = FALSE) +
+  inset_element(p = readPNG(blueCloudReverse, native = TRUE),
+                left = 0.65, bottom = 0.72, right = 0.95, top = 1, on_top = FALSE) +
+  inset_element(p = readPNG(greenCloudReverse, native = TRUE),
+                left = 0.67, bottom = 0.45, right = 0.93, top = 0.72, on_top = FALSE) +
+  inset_element(p = readPNG(darkBlueCloudReverse, native = TRUE),
+                left = 0.69, bottom = 0.29, right = 0.91, top = 0.45, on_top = FALSE) +
+  inset_element(p = readPNG(lightBlueCloudReverse, native = TRUE),
+                left = 0.71, bottom = 0.15, right = 0.89, top = 0.29, on_top = FALSE)
+```
+
+## Row
+
+### Column {width=33%}
+
+```{r}
+#| title: Progress against draft ‘Programme for Government’ Wellbeing Framework
+
+# GGplot to add the appropriate image, title, text and values for the baseline year and current year. Positioning, font types/sizes and colours are set in this code
+ggplot() +
+  theme_void() +
+  annotate("text", label = "Climate Change", 
+           x = 0, y = 0, hjust = 0.6, vjust = -6, colour = "white", size = 10, fontface = "bold") +
+  annotate("text", label = "Total greenhouse gas", 
+           x = 0, y = 0, hjust = 0.15, vjust = -2.2, colour = "white", size = 7, fontface = "bold") +
+  annotate("text", label = "emissions in NI.", 
+           x = 0, y = 0, hjust = 0.1, vjust = -0.8, colour = "white", size = 7, fontface = "bold") +
+  annotate("text", label = bquote(.(pfG$`Emission`[pfG$EmissionYear == PfGBaselineYear]) ~ "MtCO"[2] * "e Baseline" ~ .(PfGBaselineYear)), 
+           x = 0, y = 0, hjust = 0.4, vjust = 6, colour = "white", size = 8, fontface = "bold") +
+  annotate("text", label = bquote(.(pfG$`Emission`[pfG$EmissionYear == currentYear]) ~ "MtCO"[2] * "e" ~ .(currentYear)), 
+           x = 0, y = 0, hjust = 0.25, vjust = 7.2, colour = "white", size = 8, fontface = "bold") +
+  annotate("text", label = pfgText1, 
+           x = 0, y = 0, hjust = -7, vjust = -9, colour = "white", size = 6) +
+  annotate("text", label = pfgText2, 
+           x = 0, y = 0, hjust = -2.2, vjust = -8, colour = "white", size = 6)+
+  inset_element(p = readPNG(pfgInfo, native = TRUE),
+                left = 0, bottom = 0, right = 1, top = 1, on_top = FALSE)
+```
+
+### Column {width=33%}
+
+```{r}
+#| title: EMISSIONS BY SECTOR 2022
+
+plot_ly(hometreemapdf,
+         type = "treemap",
+         labels = ~TESS1,
+         parents = "",
+         values = ~CO2_total,
+         marker = list(
+         colors = ~colour),
+         textinfo = "label+percent root", 
+         text = ~paste0(TESS1 ,": ", prettyNum(CO2_total, big.mark = ","), " KtCO\u2082e", " (", percentage, ")"),
+         hoverinfo = "text") %>%
+  layout(
+    hoverlabel = list(font = list(size = 30)),
+    uniformtext = list(minsize=16, mode='hide'),
+    margin = list(l = 0, r = 0, b = 0, t = 0)
+  )  %>%
+    config(displaylogo = FALSE)
+```
+
+### Column {width=33%}
+
+```{r}
+#| title: CHANGE IN EMISSIONS BY SECTOR FROM BASE YEAR-2022 (KtCO2e)
+
+plot_ly(
+  type = "table",
+  header = list(
+    values = names(sectorChange)[c(1:4, 6)],
+    align = c('left', rep('right', 3), "left"),
+    line = list(width = 0),
+    font = list(family = "Arial", size = 18)
+  ),
+  cells = list(
+    values =
+      t(as.matrix(unname(sectorChange[c(1:4, 6)]))),
+    align = c('left', rep('right', 3), "left"),
+    line = list(width = 0),
+    font = list(family = "Arial", size = c(rep(18, 4), 32), color = c(rep("black", 3), list(sectorChange$textColour)))
+  ),
+  columnwidth = c(8, 4, 4, 4, 1)
+  )  %>%
+  layout(annotations = list(
+    list(text = "<b>Total CO<sub>2</sub>e Emissions</b>", 
+         showarrow = FALSE, 
+         x = 0.6, xref = "paper", 
+         xanchor = "center", 
+         y = 1.07, yref = "paper", 
+         yanchor = "top", 
+         font=list(color = "#444444", size = 16))))%>%
+    config(displaylogo = FALSE)
+
+```
