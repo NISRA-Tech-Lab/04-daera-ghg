@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: ../_site
+  output-dir: ../docs
 
 website:
   title: "Northern Ireland Greenhouse Gas Inventory 1990-2022"

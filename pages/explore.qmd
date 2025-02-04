@@ -12,12 +12,15 @@ source(paste0(here(), "/data_prep/explore.R"))
 
 ## Row {.tabset}
 
+### Rankings Table (2022)
+
 ```{r}
-#| title: Rankings Table (2022)
 
 filter_select(id = "TESS1", label = "Select Sectors", sharedData = sharedGHG_NI_thisYr, group = ~Sector)
 
-h2(paste0("NI Greenhouse Gas Emissions Ranking Table ", currentYear))
+```
+
+```{r}
 
 datatable(sharedGHG_NI_thisYr,
           colnames = c("Rank", "Sector", "Source", "Total Emissions (KtCO\u2082e)" ),
@@ -30,11 +33,13 @@ datatable(sharedGHG_NI_thisYr,
               list(className = "dt-left", targets = 1:2)),
             list(width = "10px", targets = 0),
             dom = 'Bfrtip',
-            buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+            buttons = c('copy', 'csv', 'excel', 'pdf', 'print')),
+          caption = paste0("NI Greenhouse Gas Emissions Ranking Table ", currentYear))
 ```
 
+### Tree Map (2022)
+
 ```{r}
-#| title: Tree Map (2022)
 
 alltreemap <- plot_ly(
   type="treemap",
@@ -55,15 +60,16 @@ h3(span(style = "font-size: 16pt;",span(style = "font-weight: bold;", "Interacti
 alltreemap
 ```
 
+### Projections
+
 ```{r}
-#| title: Projections
 
 yaxistitle <- list(x = 0, y = 1, text = "Kilotonnes\nCO\u2082e", 
                    showarrow = F, xref= "paper", yref="paper", 
                    xanchor = "center", yanchor="bottom",
                    font = list(size = 12))
 
-figProjections <- Shared_projection %>%
+Shared_projection %>%
   plot_ly(x = ~eYear2,
   y = ~post1997,
   color = ~NCFormat,
@@ -88,41 +94,37 @@ figProjections <- Shared_projection %>%
          title = "Projected sectoral emissions in Northern Ireland", titlefont = list(size = 25),
          clickmode = "none") %>%
   config(displaylogo = FALSE)
-
-
-tableProjections <- datatable(Shared_projection,
-                          colnames = c("Year", "Sector", "Actual or Projected", "CO\u2082 Equivalents (kilotonnes CO\u2082e)"),
-                          fillContainer = FALSE,
-                          rownames = FALSE,
-                          extensions = 'Buttons', options = list(
-                            columnDefs = list(list(visible = FALSE, targets = 4:8),
-                                              list(className = "dt-body-right", targets = c(0,3)),
-                                              list(className = "dt-right", targets = c(0,3)),
-                                              list(className = 'dt-left', targets = "_all")),
-                            dom = 'Bfrtip',
-                            buttons = list(
-                              list(extend = "pdf", exportOptions = list(columns = ":visible")),
-                              list(extend = "excel", exportOptions = list(columns = ":visible")),
-                              list(extend = "csv", exportOptions = list(columns = ":visible")),
-                              list(extend = "copy", exportOptions = list(columns = ":visible")),
-                              list(extend = "print", exportOptions = list(columns = ":visible"))
-                            )
-                              ))
-
-
-
-div(class = "row", style = "display: flex;",
-    div(style = "width: 2%"),
-    div(style = "width: 76%",
-        div(style = "height: 45%", figProjections),
-        div(style = "height: 50%", tableProjections),
-        div(style = "height: 5%")),
-    div(style = "width: 2%"),
-    div(style = "width: 18%",
-         filter_select(id = "NCFormat", label = "Sector", sharedData = Shared_projection, group = ~NCFormat),
-         filter_slider(id = "EmissionYear", label = "Year", sharedData = Shared_projection, column = ~EmissionYear, timeFormat = "%Y"),
-         filter_checkbox(id= "Source", label = "Actual/Projection", sharedData = Shared_projection, group=~Source)
-        ),
-    div(style = "width: 2%")
-    )
 ```
+
+```{r}
+
+datatable(Shared_projection,
+          colnames = c("Year", "Sector", "Actual or Projected", "CO\u2082 Equivalents (kilotonnes CO\u2082e)"),
+          fillContainer = FALSE,
+          rownames = FALSE,
+          extensions = 'Buttons', options = list(
+            columnDefs = list(list(visible = FALSE, targets = 4:8),
+                              list(className = "dt-body-right", targets = c(0,3)),
+                              list(className = "dt-right", targets = c(0,3)),
+                              list(className = 'dt-left', targets = "_all")),
+            dom = 'Bfrtip',
+            buttons = list(
+              list(extend = "pdf", exportOptions = list(columns = ":visible")),
+              list(extend = "excel", exportOptions = list(columns = ":visible")),
+              list(extend = "csv", exportOptions = list(columns = ":visible")),
+              list(extend = "copy", exportOptions = list(columns = ":visible")),
+              list(extend = "print", exportOptions = list(columns = ":visible"))
+            )
+              ))
+
+```
+
+
+```{r}
+
+filter_select(id = "NCFormat", label = "Sector", sharedData = Shared_projection, group = ~NCFormat)
+filter_slider(id = "EmissionYear", label = "Year", sharedData = Shared_projection, column = ~EmissionYear, timeFormat = "%Y")
+filter_checkbox(id = "Source", label = "Actual/Projection", sharedData = Shared_projection, group=~Source)
+
+```
+

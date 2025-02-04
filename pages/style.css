@@ -32,6 +32,10 @@ color: black;
 font-size: 17px
 }
 
+#quarto-dashboard-header {
+    display: none !important;
+}
+
 
 
 
