@@ -10,6 +10,7 @@ source(paste0(here(), "/data_prep/explore.R"))
 
 ```
 
+
 ## Row {.tabset}
 
 ### Rankings Table (2022)
@@ -18,11 +19,11 @@ source(paste0(here(), "/data_prep/explore.R"))
 
 filter_select(id = "TESS1", label = "Select Sectors", sharedData = sharedGHG_NI_thisYr, group = ~Sector)
 
-```
-
-```{r}
-
 datatable(sharedGHG_NI_thisYr,
+          caption = htmltools::tags$caption(
+            style = "caption-side: top; font-size: 30px; text-align: left;",
+            paste0("NI Greenhouse Gas Emissions Ranking Table ", currentYear)
+          ),
           colnames = c("Rank", "Sector", "Source", "Total Emissions (KtCO\u2082e)" ),
           fillContainer = FALSE,
           extensions = 'Buttons',
@@ -33,8 +34,8 @@ datatable(sharedGHG_NI_thisYr,
               list(className = "dt-left", targets = 1:2)),
             list(width = "10px", targets = 0),
             dom = 'Bfrtip',
-            buttons = c('copy', 'csv', 'excel', 'pdf', 'print')),
-          caption = paste0("NI Greenhouse Gas Emissions Ranking Table ", currentYear))
+            buttons = c('copy', 'csv', 'excel', 'pdf', 'print'))
+          )
 ```
 
 ### Tree Map (2022)
@@ -50,17 +51,22 @@ alltreemap <- plot_ly(
   textinfo = "label",
   text = paste0(tmap_labels,": ", prettyNum(tmap_values, big.mark = ",")," KtCO\u2082e"),
   hoverinfo = 'text'
-)%>%
+) %>%
   layout(
     hoverlabel = list(font=list(size=30))
   )
 
-h3(span(style = "font-size: 16pt;",span(style = "font-weight: bold;", "Interactive Tree Map:"), "Click on any sector name ( e.g. Agriculture, Business etc) to have a closer look at the sub-sectors within that sector. Click the sector name again to return to the full tree map."))
+h3(id = "treemap-title",
+   style = "font-size: 16pt;",
+   span(style = "font-weight: bold;", "Interactive Tree Map:"),
+   "Click on any sector name ( e.g. Agriculture, Business etc) to have a closer look at the sub-sectors within that sector. Click the sector name again to return to the full tree map.")
 
 alltreemap
 ```
 
 ### Projections
+
+#### Column {width=70%}
 
 ```{r}
 
@@ -119,6 +125,9 @@ datatable(Shared_projection,
 
 ```
 
+#### Column
+
+::: {.flow}
 
 ```{r}
 
@@ -127,4 +136,13 @@ filter_slider(id = "EmissionYear", label = "Year", sharedData = Shared_projectio
 filter_checkbox(id = "Source", label = "Actual/Projection", sharedData = Shared_projection, group=~Source)
 
 ```
+
+:::
+
+<script>
+  window.onload = function () {
+    document.getElementById("TESS1").parentElement.classList.remove("html-fill-item");
+    document.getElementById("treemap-title").parentElement.classList.remove("html-fill-item");
+  }
+</script>
 
