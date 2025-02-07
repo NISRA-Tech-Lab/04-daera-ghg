@@ -36,7 +36,6 @@ bscols(
 ### Graph
 
 ```{r}
-#| title: Sectoral Emissions in Northern Ireland and other regions
 
 lineText = paste("\nSector:", sectordata4$TESS1, "\nRegion:", sectordata4$RegionName, "\nEmission:", sectordata4$Emission)
 
@@ -76,7 +75,6 @@ Shared_sectordata4 %>%
 ### Table
 
 ```{r}
-#| title: Sectoral Emissions in Northern Ireland and other regions
 
 datatable(Shared_sectordata4,
                           colnames = c("Year", "Pollutant", "Region", "Sector", "CO\u2082 Equivalents (kilotonnes CO\u2082e)"),

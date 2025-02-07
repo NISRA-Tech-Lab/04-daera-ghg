@@ -13,7 +13,7 @@ source(paste0(here(), "/data_prep/explore.R"))
 
 ## Row {.tabset}
 
-### Rankings Table (2022)
+### Rankings Table (`r currentYear`)
 
 ```{r}
 
@@ -38,7 +38,7 @@ datatable(sharedGHG_NI_thisYr,
           )
 ```
 
-### Tree Map (2022)
+### Tree Map (`r currentYear`)
 
 ```{r}
 

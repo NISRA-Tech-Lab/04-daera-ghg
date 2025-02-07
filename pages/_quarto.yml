@@ -40,4 +40,5 @@ website:
 format:
   dashboard:
     css: style.css
+    fig-responsive: true
     

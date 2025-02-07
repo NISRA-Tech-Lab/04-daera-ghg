@@ -19,3 +19,6 @@ library(lubridate)
 library(kableExtra)
 library(data.table)
 library(quarto)
+
+GHG_ALL_name <- "FlatOutput_DAGHGI_1990-2022.xlsx"
+GHG_PROJ_name <- "GHG Projections Data.xlsx"

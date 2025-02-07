@@ -12,8 +12,9 @@ source(paste0(here(), "/data_prep/comparisons.R"))
 
 ## Row {.tabset}
 
+### Total NI CO&#8322;e Emissions by Sector `r currentYear`
+
 ```{r}
-#| title: Total NI CO2e Emissions by Sector 2022
 
 yaxistitle <- list(x = 0, y = 1, text = "Kilotonnes\nCO\u2082e", 
                 showarrow = F, xref= "paper", yref="paper", 
@@ -37,8 +38,9 @@ plot_ly(data = homebardf,
     config(displaylogo = FALSE)
 ```
 
+### Total NI CO&#8322;e Emissions by Year and Sector
+
 ```{r}
-#| title: NI CO2e Emissions by Year and Sector
 
 # Declare list of sectors and colours
 sectors <- rev(unique(names(stackedBarData[names(stackedBarData) != "eYear"])))
@@ -80,8 +82,9 @@ stackedBar %>%
          margin = list(t = 75))
 ```
 
+### UK Historic Comparison (Bar Chart Race)
+
 ```{r}
-#| title: UK Historic Comparison (Bar Chart Race)
 
 sectorSumAll %>%
   plot_ly(x = ~England,
@@ -122,8 +125,9 @@ currentvalue = list(prefix = "Year: ", font = list(color="black", size = 20))
 )
 ```
 
+### NI Historic Sector Comparison (Bar Chart Race)
+
 ```{r}
-#| title: NI Historic Sector Comparison (Bar Chart Race)
 
 sectors <- unique(names(sectorSumNI[names(sectorSumNI) != "Year"]))
 colours <- sectorColours$colour

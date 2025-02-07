@@ -2,7 +2,7 @@ library(here)
 source(paste0(here(), "/config.R"))
 
 # READ IN THE DATA
-GHG_ALL <- read_excel(paste0(here(), "/FlatOutput_DAGHGI_1990-2022.xlsx")) %>%
+GHG_ALL <- read_excel(paste(here(), GHG_ALL_name, sep = "/")) %>%
   mutate(
     EmissionYear = case_when(
       EmissionYear == "BaseYear" ~ "1989", 
@@ -19,7 +19,7 @@ GHG_ALL <- GHG_ALL %>%
   select(-Timestamp) %>%
   filter(ConvertTo == "GWP CO2_AR5" & TESS1 != "International aviation and shipping")
 
-GHG_PROJ <- read_excel(paste0(here(), "/GHG Projections Data.xlsx"))
+GHG_PROJ <- read_excel(paste(here(), GHG_PROJ_name, sep = "/"))
 PROJ_ACTUAL <- GHG_ALL %>%
   group_by(Pollutant, SourceName, EmissionYear, RegionName, IPCC_code, NCFormat) %>%
   summarise(Emission = sum(Emission), .groups = 'drop') %>%

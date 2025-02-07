@@ -40,8 +40,8 @@ alltreemapdf <- left_join(alltreemapdf, formatLabels, by = c("TESS1", "TESS2", "
   mutate(subsector = wrap.labels(subsector, 15))
 
 
-tmap_labels <- c("2022 Sector Emissions", unique(alltreemapdf$sectorLabel), alltreemapdf$TESS3) # Update the labels vector
-tmap_parents <- c("", rep("2022 Sector Emissions", length(unique(alltreemapdf$TESS1))), alltreemapdf$sectorLabel)  # Update the parents vector
+tmap_labels <- c(paste(currentYear, "Sector Emissions"), unique(alltreemapdf$sectorLabel), alltreemapdf$TESS3) # Update the labels vector
+tmap_parents <- c("", rep(paste(currentYear, "Sector Emissions"), length(unique(alltreemapdf$TESS1))), alltreemapdf$sectorLabel)  # Update the parents vector
 tmap_values <- c(rep(0, length(unique(alltreemapdf$TESS1)) + 1), round(alltreemapdf$Emission, 0)) 
 
 # Projections

@@ -11,15 +11,17 @@ html_docs <- list.files(paste0(here(), "/docs"), pattern = "*.html")
 
 for (doc in html_docs) {
   
-  raw_html <- readLines(paste0(here(), "/docs/", doc))
+  suppressWarnings({
+    raw_html <- readLines(paste0(here(), "/docs/", doc))
+  })
   
   if (length(which(grepl("strftime", raw_html))) > 0) {
     strftime_line <- which(grepl("strftime", raw_html))
-    jquery_line <- which(grepl('<script src="site_libs/jquery', raw_html))
+    selectize_line <- which(grepl('<link href="site_libs/selectize', raw_html))
     
-    new_html <- c(raw_html[1:(jquery_line + 1)],
+    new_html <- c(raw_html[1:(selectize_line - 1)],
                   raw_html[strftime_line:(strftime_line + 1)],
-                  raw_html[(jquery_line + 2):(strftime_line - 1)],
+                  raw_html[(selectize_line):(strftime_line - 1)],
                   raw_html[(strftime_line + 2):length(raw_html)])
     
     writeLines(new_html,
