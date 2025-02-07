@@ -41,4 +41,7 @@ format:
   dashboard:
     css: style.css
     fig-responsive: true
+    include-in-header: 
+      text: |
+        <link rel="icon" type="image" href="/img/fav-icon-daera.svg"/>
     

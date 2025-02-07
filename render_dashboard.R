@@ -1,4 +1,6 @@
-# Source libraries
+# Click Source button or press Ctrl + Shift +S
+
+# Libraries
 library(quarto)
 library(here)
 
