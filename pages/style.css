@@ -36,6 +36,13 @@ font-size: 17px
     display: none !important;
 }
 
+.navbar-logo {
+  min-height: 48px;
+  min-width: 192px;
+}
 
+.navbar {
+  background-color: #1a6ecc;
+}
 
 
