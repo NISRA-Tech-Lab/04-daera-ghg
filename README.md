@@ -57,6 +57,7 @@ To update the project with new data or adjustments, follow these steps:
 3. **Render the Dashboard**
    - Open the `render_dashboard.R` script.
    - Click **Source** or press `Ctrl + Shift + S` to run the script and generate the updated website.
+   - After execution, the website will automatically open in your default web browser.
 
 ### Rendering a Single Page
 
@@ -67,15 +68,9 @@ To update the project with new data or adjustments, follow these steps:
 
 - To publish the website, send the entire rendered contents of the `/docs` folder to **NISRA TechLab** for hosting on the `explore.nisra.gov.uk` server.
 
-### How to Use
-
-1. Open R and ensure that `renv` is initialized and restored.
-2. Run the script to render the website and apply the fix.
-3. After execution, the website will automatically open in your default web browser.
-
 ### Notes
 
-- The script should be executed in an R environment where Quarto is properly configured.
+- The project should be executed in an R environment where Quarto is properly configured.
 - The fix for the date slider is applied only if the issue is detected in the rendered HTML files.
 - The project configuration ensures that the website maintains a structured navigation and consistent styling.
 - Ensure that `renv` is initialized and restored to maintain package version consistency.
