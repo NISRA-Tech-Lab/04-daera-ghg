@@ -1,5 +1,8 @@
 ---
 title: EXPLORE
+include-in-header:
+  text: |
+    <script src = "base-in-slider.js"></script>
 ---
 
 ```{r setup}
@@ -66,7 +69,7 @@ alltreemap
 
 ### Projections
 
-#### Column {width=70%}
+#### Column {width=80%}
 
 ```{r}
 
@@ -127,22 +130,25 @@ datatable(Shared_projection,
 
 #### Column
 
-::: {.flow}
-
 ```{r}
-
-filter_select(id = "NCFormat", label = "Sector", sharedData = Shared_projection, group = ~NCFormat)
-filter_slider(id = "EmissionYear", label = "Year", sharedData = Shared_projection, column = ~EmissionYear, timeFormat = "%Y")
-filter_checkbox(id = "Source", label = "Actual/Projection", sharedData = Shared_projection, group=~Source)
+div(style = "margin-left: 5%;",
+    bscols(
+    list(
+      filter_select(id = "NCFormat", label = "Sector", sharedData = Shared_projection, group = ~NCFormat),
+      filter_slider(id = "EmissionYear", label = "Year", sharedData = Shared_projection, column = ~EmissionYear, timeFormat = "%Y"),
+      filter_checkbox(id = "Source", label = "Actual/Projection", sharedData = Shared_projection, group=~Source)
+    )
+  )
+)
 
 ```
 
-:::
-
 <script>
-  window.onload = function () {
-    document.getElementById("TESS1").parentElement.classList.remove("html-fill-item");
-    document.getElementById("treemap-title").parentElement.classList.remove("html-fill-item");
-  }
+  document.addEventListener('DOMContentLoaded', function () {
+    let items = ["TESS1", "treemap-title", "NCFormat", "EmissionYear", "Source"];
+    for (let i = 0; i < items.length; i ++) {
+      document.getElementById(items[i]).parentElement.classList.remove("html-fill-item");
+    }
+  });
 </script>
 

@@ -269,7 +269,8 @@ ggplot() +
 ### Column {width=33%}
 
 ```{r}
-#| title: EMISSIONS BY SECTOR currentYear
+
+cat("title=EMISSIONS BY SECTOR", currentYear)
 
 plot_ly(hometreemapdf,
          type = "treemap",
@@ -292,7 +293,8 @@ plot_ly(hometreemapdf,
 ### Column {width=33%}
 
 ```{r}
-#| title: CHANGE IN EMISSIONS BY SECTOR FROM BASE YEAR-currentYear (KtCO&#8322;e)
+
+cat("title=CHANGE IN EMISSIONS BY SECTOR FROM BASE YEAR-", currentYear, " (KtCO&#8322;e)", sep = "")
 
 plot_ly(
   type = "table",
@@ -322,14 +324,3 @@ plot_ly(
     config(displaylogo = FALSE)
 
 ```
-
-## Row {.hidden}
-
-<script>
-window.onload = function () {
-  card_titles = document.getElementsByClassName("card-title");
-  for (let i = 0; i < card_titles.length; i ++) {
-    card_titles[i].textContent = card_titles[i].textContent.replace("currentYear", "`r currentYear`")
-  }
-}
-</script>

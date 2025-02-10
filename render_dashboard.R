@@ -21,13 +21,17 @@ for (doc in html_docs) {
     strftime_line <- which(grepl("strftime", raw_html))
     selectize_line <- which(grepl('<link href="site_libs/selectize', raw_html))
     
-    new_html <- c(raw_html[1:(selectize_line - 1)],
-                  raw_html[strftime_line:(strftime_line + 1)],
-                  raw_html[(selectize_line):(strftime_line - 1)],
-                  raw_html[(strftime_line + 2):length(raw_html)])
+    if (strftime_line > selectize_line) {
     
-    writeLines(new_html,
-               paste0(here(), "/docs/", doc))
+      new_html <- c(raw_html[1:(selectize_line - 1)],
+                    raw_html[strftime_line:(strftime_line + 1)],
+                    raw_html[(selectize_line):(strftime_line - 1)],
+                    raw_html[(strftime_line + 2):length(raw_html)])
+      
+      writeLines(new_html,
+                 paste0(here(), "/docs/", doc))
+    
+    }
     
   }
   

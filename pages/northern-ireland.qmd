@@ -1,5 +1,8 @@
 ---
 title: Northern Ireland
+include-in-header:
+  text: |
+    <script src = "base-in-slider.js"></script>
 ---
 
 ```{r setup}
