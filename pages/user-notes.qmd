@@ -1,9 +1,14 @@
 ---
 title: USER NOTES
-include-in-header:
-  text: |
-    <script src = "base-in-slider.js"></script>
 ---
+
+```{r setup}
+#| include: FALSE
+
+library(here)
+source(paste0(here(), "/data_prep/main.R"))
+
+```
 
 ## Row {.tabset}
 
@@ -77,13 +82,13 @@ There remains greater uncertainty around emissions in Northern Ireland compared 
 
 DAERA Statistics & Analytical Services Branch is keen to hear your feedback.
 
-Please e-mail comments to env.stats@daera-ni.gov.uk
+Please e-mail comments to [env.stats@daera-ni.gov.uk](mailto:env.stats@daera-ni.gov.uk)
 
-Further information can be found on the DAERA Statistics website https://www.daera-ni.gov.uk/landing-pages/statistics
+Further information can be found on the [DAERA Statistics website](https://www.daera-ni.gov.uk/landing-pages/statistics).
 
 
 **Date of Publication:**
 
 Published: Annually
 
-Time period covered – Greenhouse Gas Inventory: 1990-2022
+Time period covered – Greenhouse Gas Inventory: 1990-`r currentYear`

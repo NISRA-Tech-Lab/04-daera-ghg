@@ -49,4 +49,9 @@ format:
     include-in-header: 
       text: |
         <link rel="icon" type="image" href="img/favicon-daera.svg"/>
+        <script src = "cookies_script.js"></script>
+    include-before-body:
+      text: |
+        <div id = "cookie-banner"></div>
+        
     
